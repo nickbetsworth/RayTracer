@@ -11,12 +11,17 @@ var outputPath = args[0];
 
 var image = new Image(255, 255);
 
+Console.WriteLine("Rendering image");
 for (var y = 0; y < image.Height; y++)
 {
+    Console.WriteLine($"Scanlines remaining: {image.Height-y}");
     for (var x = 0; x < image.Width; x++)
     {
         image.SetPixel(x, y, new Color(50, (byte)x, (byte)y));
     }
 }
 
+Console.WriteLine("Done.");
+Console.WriteLine("Writing image to file.");
 image.ToPpm(outputPath);
+Console.WriteLine("Done.");

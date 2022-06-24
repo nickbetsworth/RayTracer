@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-
-namespace RayTracer;
+using Color = RayTracer.Data.Vector3;
+namespace RayTracer.Data.Extensions;
 
 public static class ImageWriterExtensions
 {
-    public static void ToPpm([NotNull] this Image image, string filepath)
+    public static void ToPpm(this Image image, string filepath)
     {
         using StreamWriter file = new(filepath);
         file.WriteLine("P3");                               // Colours are in ASCII
@@ -15,9 +15,18 @@ public static class ImageWriterExtensions
         {
             for (var x = 0; x < image.Width; x++)
             {
-                var data = image.GetPixel(x, y);
-                file.WriteLine($"{data.R} {data.G} {data.B}");
+                var pixel = image.GetPixel(x, y).ToRgb();
+                file.WriteLine($"{pixel.R} {pixel.G} {pixel.B}");
             }
         }
+    }
+
+    public record ColorRgb(byte R, byte G, byte B);
+    public static ColorRgb ToRgb([NotNull] this Color pixel)
+    {
+        return new ColorRgb(
+            (byte)(pixel.X * 255.99),
+            (byte)(pixel.Y * 255.99),
+            (byte)(pixel.Z * 255.99));
     }
 }

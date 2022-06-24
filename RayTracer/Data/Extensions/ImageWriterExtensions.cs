@@ -11,7 +11,7 @@ public static class ImageWriterExtensions
         file.WriteLine($"{image.Width} {image.Height}");    // Image dimensions
         file.WriteLine("255");                              // Max color
         
-        for (var y = 0; y < image.Height; y++)
+        for (var y = image.Height-1; y >= 0; y--)
         {
             for (var x = 0; x < image.Width; x++)
             {

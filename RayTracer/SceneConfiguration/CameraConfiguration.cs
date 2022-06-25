@@ -1,6 +1,6 @@
 ﻿using RayTracer.Data;
 
-namespace RayTracer;
+namespace RayTracer.SceneConfiguration;
 
 using Point3 = Vector3;
 

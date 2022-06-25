@@ -1,8 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using RayTracer;
+﻿using RayTracer;
+using RayTracer.Collision;
 using RayTracer.Data;
 using RayTracer.Data.Extensions;
+using RayTracer.SceneConfiguration;
 using Color = RayTracer.Data.Vector3;
 
 if (args.Length == 0)
@@ -19,6 +19,11 @@ var camera = new CameraConfiguration
     Origin = new Vector3(0, 0, 0)
 };
 
+// Configure the scene
+var scene = new Scene();
+scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5));
+var tracer = new Tracer(scene);
+
 var image = new Image(400, (int)(400 / camera.AspectRatio));
 
 Console.WriteLine("Rendering image");
@@ -32,7 +37,8 @@ for (var y = 0; y < image.Height; y++)
 
         var ray = new Ray(camera.Origin,
             camera.LowerLeftCorner + camera.Horizontal * u + camera.Vertical * v - camera.Origin);
-        image.SetPixel(x, y, ray.ToColor());
+        
+        image.SetPixel(x, y, tracer.Trace(ray));
     }
 }
 

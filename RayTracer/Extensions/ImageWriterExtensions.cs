@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using RayTracer.Data;
 using Color = RayTracer.Data.Vector3;
-namespace RayTracer.Data.Extensions;
+namespace RayTracer.Extensions;
 
 public static class ImageWriterExtensions
 {

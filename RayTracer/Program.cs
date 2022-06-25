@@ -2,7 +2,7 @@
 using RayTracer;
 using RayTracer.Collision;
 using RayTracer.Data;
-using RayTracer.Data.Extensions;
+using RayTracer.Extensions;
 using RayTracer.SceneConfiguration;
 using Color = RayTracer.Data.Vector3;
 

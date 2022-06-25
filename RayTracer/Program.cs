@@ -29,7 +29,7 @@ var tracerConfiguration = new TracerConfiguration
 {
     SamplesPerPixel = 100,
     MaxSampleDelta = 0.005,
-    MaxRayReflections = 10
+    MaxRayReflections = 2
 };
 var tracer = new Tracer(tracerConfiguration, camera, scene);
 

@@ -44,32 +44,28 @@ public class Tracer
 
     private Color Trace(Ray ray, int depth)
     {
-        while (true)
+        if (depth <= 0)
         {
-            if (depth <= 0)
-            {
-                return new Color();
-            }
-
-            IntersectionResult? closestIntersection = null;
-            foreach (var item in _scene.Objects)
-            {
-                var intersection = item.Intersect(ray, 0, closestIntersection?.T ?? double.MaxValue);
-                if (intersection is not null)
-                {
-                    closestIntersection = intersection;
-                }
-            }
-
-            if (closestIntersection is null)
-            {
-                return BackgroundColor(ray);
-            }
-
-            var diffuseDirection = closestIntersection.Normal + VectorUtils.RandomPointInUnitSphere();
-            ray = new Ray(closestIntersection.Point, diffuseDirection);
-            depth -= 1;
+            return new Color();
         }
+        
+        IntersectionResult? closestIntersection = null;
+        foreach (var item in _scene.Objects)
+        {
+            var intersection = item.Intersect(ray, 0, closestIntersection?.T ?? double.MaxValue); 
+            if (intersection is not null)
+            {
+                closestIntersection = intersection;
+            }
+        }
+
+        if (closestIntersection is null)
+        {
+            return BackgroundColor(ray);
+        }
+
+        var diffuseDirection = closestIntersection.Normal + VectorUtils.RandomPointInUnitSphere();
+        return Trace(new Ray(closestIntersection.Point, diffuseDirection), depth-1) * 0.5;
     }
 
     private static Color BackgroundColor(Ray ray)

@@ -17,7 +17,7 @@ public static class ImageWriterExtensions
         {
             for (var x = 0; x < image.Width; x++)
             {
-                var pixel = image.GetPixel(x, y).ToRgb();
+                var pixel = GammaCorrect(image.GetPixel(x, y)).ToRgb();
                 file.WriteLine($"{pixel.R} {pixel.G} {pixel.B}");
             }
         }
@@ -30,6 +30,14 @@ public static class ImageWriterExtensions
             (byte)(ClampValue(pixel.X) * 255.99),
             (byte)(ClampValue(pixel.Y) * 255.99),
             (byte)(ClampValue(pixel.Z) * 255.99));
+    }
+    
+    private static Color GammaCorrect(Color color)
+    {
+        return new Color(
+            Math.Sqrt(color.X),
+            Math.Sqrt(color.Y),
+            Math.Sqrt(color.Z));
     }
 
     private static double ClampValue(double value)

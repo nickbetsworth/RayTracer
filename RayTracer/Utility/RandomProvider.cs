@@ -2,5 +2,5 @@
 
 public static class RandomProvider
 {
-    public static Random Random { get; } = new Random();
+    public static Random Random { get; } = new();
 }

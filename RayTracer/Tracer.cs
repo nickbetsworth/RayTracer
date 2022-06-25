@@ -52,7 +52,8 @@ public class Tracer
         IntersectionResult? closestIntersection = null;
         foreach (var item in _scene.Objects)
         {
-            var intersection = item.Intersect(ray, 0, closestIntersection?.T ?? double.MaxValue); 
+            // Start with tMin = eps to prevent shadow acne where reflected rays intersect object they are reflected off
+            var intersection = item.Intersect(ray, 0.00001, closestIntersection?.T ?? double.MaxValue); 
             if (intersection is not null)
             {
                 closestIntersection = intersection;
@@ -64,7 +65,7 @@ public class Tracer
             return BackgroundColor(ray);
         }
 
-        var diffuseDirection = closestIntersection.Normal + VectorUtils.RandomPointInUnitSphere();
+        var diffuseDirection = closestIntersection.Normal + VectorUtils.RandomUnitVector();
         return Trace(new Ray(closestIntersection.Point, diffuseDirection), depth-1) * 0.5;
     }
 

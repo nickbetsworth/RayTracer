@@ -1,10 +1,10 @@
 ﻿using RayTracer.Data;
 
-namespace RayTracer.SceneConfiguration;
+namespace RayTracer.Configuration;
 
 using Point3 = Vector3;
 
-public class CameraConfiguration
+public class Camera
 {
     public double AspectRatio { get; set; } = 16.0 / 9.0;
     public double ViewportHeight { get; set; } = 2.0;

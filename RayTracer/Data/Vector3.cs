@@ -8,13 +8,17 @@ public class Vector3
     public double Y { get; set; }
     public double Z { get; set; }
 
+    public Vector3()
+    {
+    }
+
     public Vector3(double x, double y, double z)
     {
         X = x;
         Y = y;
         Z = z;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double Length() => Math.Sqrt(LengthSquared());
 

@@ -1,6 +1,6 @@
 ﻿using RayTracer.Collision;
 
-namespace RayTracer.SceneConfiguration;
+namespace RayTracer.Configuration;
 
 public class Scene
 {

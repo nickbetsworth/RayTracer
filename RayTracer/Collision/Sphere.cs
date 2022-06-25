@@ -24,12 +24,22 @@ public class Sphere : IIntersectable
 
         var discriminant = b * b - 4 * a * c;
 
-        if (discriminant <= 0)
+        if (discriminant < 0)
         {
             return null;
         }
+
+        var t = (-b - Math.Sqrt(discriminant)) / (2.0 * a);
+
+        // Todo: early return?
+        if (t < tMin || t > tMax)
+        {
+            
+        }
+
+        var intersectionPoint = ray.At(t);
+        var norm = Vector3.Normalize(intersectionPoint - Origin);
         
-        // Todo: embed intersection info
-        return new IntersectionResult(Origin, ray.Direction, 0);
+        return new IntersectionResult(intersectionPoint, norm, t);
     }
 }

@@ -1,4 +1,5 @@
-﻿using RayTracer;
+﻿using System.Diagnostics;
+using RayTracer;
 using RayTracer.Collision;
 using RayTracer.Data;
 using RayTracer.Data.Extensions;
@@ -26,10 +27,11 @@ var tracer = new Tracer(scene);
 
 var image = new Image(400, (int)(400 / camera.AspectRatio));
 
+var timer = Stopwatch.StartNew();
 Console.WriteLine("Rendering image");
 for (var y = 0; y < image.Height; y++)
 {
-    Console.WriteLine($"Scanlines remaining: {image.Height-y}");
+    // Console.WriteLine($"Scanlines remaining: {image.Height-y}");
     for (var x = 0; x < image.Width; x++)
     {
         var u = (double)x / (image.Width-1);
@@ -43,6 +45,7 @@ for (var y = 0; y < image.Height; y++)
 }
 
 Console.WriteLine("Done.");
+Console.WriteLine($"Time taken: {timer.Elapsed.Milliseconds}ms");
 Console.WriteLine("Writing image to file.");
 image.ToPpm(outputPath);
 Console.WriteLine("Done.");

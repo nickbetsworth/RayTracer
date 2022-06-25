@@ -15,11 +15,17 @@ public class Tracer
 
     public Color Trace(Ray ray)
     {
+        // var objectColor = new Color(0.0, 0.25, 0.85);
         foreach (var item in _scene.Objects)
         {
-            if (item.Intersect(ray, 0, 0) is not null)
+            var intersection = item.Intersect(ray, 0, 0); 
+            if (intersection is not null)
             {
-                return new Color(0, 1.0, 0);
+                // return objectColor * ((Vector3.Dot(Vector3.Normalize(ray.Direction), intersection.Normal) - 1) * -0.5);
+                return new Color(
+                    intersection.Normal.X + 1.0,
+                    intersection.Normal.Y + 1.0,
+                    intersection.Normal.Z + 1.0) * 0.5;
             }
         }
 

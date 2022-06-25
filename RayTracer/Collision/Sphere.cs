@@ -22,6 +22,7 @@ public class Sphere : IIntersectable
         var b = 2.0 * Vector3.Dot(sphereToRay, ray.Direction);
         var c = Vector3.Dot(sphereToRay, sphereToRay) - Radius * Radius;
 
+        // Todo: ignored simplification in #6.2. Left as is to maintain readability
         var discriminant = b * b - 4 * a * c;
 
         if (discriminant < 0)
@@ -29,17 +30,22 @@ public class Sphere : IIntersectable
             return null;
         }
 
-        var t = (-b - Math.Sqrt(discriminant)) / (2.0 * a);
+        var sqrt = Math.Sqrt(discriminant);
+        var t = (-b - sqrt) / (2.0 * a);
 
-        // Todo: early return?
         if (t < tMin || t > tMax)
         {
-            
+            t = (-b + sqrt) / (2.0 * a);
+            if (t < tMin || t > tMax)
+            {
+                return null;
+            }
         }
 
         var intersectionPoint = ray.At(t);
-        var norm = Vector3.Normalize(intersectionPoint - Origin);
+        var norm = (intersectionPoint - Origin) / Radius;
+        var frontFaceIntersection = Vector3.Dot(ray.Direction, norm) < 0.0;
         
-        return new IntersectionResult(intersectionPoint, norm, t);
+        return new IntersectionResult(intersectionPoint, frontFaceIntersection ? norm : -norm, t, frontFaceIntersection);
     }
 }

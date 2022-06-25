@@ -46,6 +46,12 @@ public class Vector3
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3 operator -(Vector3 vec)
+    {
+        return new Vector3(-vec.X, -vec.Y, -vec.Z);
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3 operator -(Vector3 a, Vector3 b)
     {
         return new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);

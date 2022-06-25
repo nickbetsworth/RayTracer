@@ -18,7 +18,7 @@ public class Tracer
         // var objectColor = new Color(0.0, 0.25, 0.85);
         foreach (var item in _scene.Objects)
         {
-            var intersection = item.Intersect(ray, 0, 0); 
+            var intersection = item.Intersect(ray, 0, double.PositiveInfinity); 
             if (intersection is not null)
             {
                 // return objectColor * ((Vector3.Dot(Vector3.Normalize(ray.Direction), intersection.Normal) - 1) * -0.5);

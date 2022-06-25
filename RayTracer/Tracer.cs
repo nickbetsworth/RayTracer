@@ -1,4 +1,5 @@
-﻿using RayTracer.Data;
+﻿using RayTracer.Collision;
+using RayTracer.Data;
 using RayTracer.SceneConfiguration;
 
 namespace RayTracer;
@@ -15,21 +16,28 @@ public class Tracer
 
     public Color Trace(Ray ray)
     {
-        // var objectColor = new Color(0.0, 0.25, 0.85);
+        IntersectionResult? closest = null;
         foreach (var item in _scene.Objects)
         {
-            var intersection = item.Intersect(ray, 0, double.PositiveInfinity); 
+            var intersection = item.Intersect(ray, 0, closest?.T ?? double.MaxValue); 
             if (intersection is not null)
             {
-                // return objectColor * ((Vector3.Dot(Vector3.Normalize(ray.Direction), intersection.Normal) - 1) * -0.5);
-                return new Color(
-                    intersection.Normal.X + 1.0,
-                    intersection.Normal.Y + 1.0,
-                    intersection.Normal.Z + 1.0) * 0.5;
+                closest = intersection;
             }
         }
 
-        return Default(ray);
+        if (closest is null)
+        {
+            return Default(ray);
+        }
+        
+        // var objectColor = new Color(0.0, 0.25, 0.85);
+        // return objectColor * ((Vector3.Dot(Vector3.Normalize(ray.Direction), intersection.Normal) - 1) * -0.5);
+        return new Color(
+            closest.Normal.X + 1.0,
+            closest.Normal.Y + 1.0,
+            closest.Normal.Z + 1.0) * 0.5;
+
     }
 
     private static Color Default(Ray ray)

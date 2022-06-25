@@ -22,10 +22,13 @@ var camera = new CameraConfiguration
 
 // Configure the scene
 var scene = new Scene();
-scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5));
+scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5)); // Subject
+scene.Add(new Sphere(new Vector3(0, -100.5, -1), 100)); // Ground
+// scene.Add(new Sphere(new Vector3(0.1, 0, -0.5), 0.1));
 var tracer = new Tracer(scene);
 
-var image = new Image(400, (int)(400 / camera.AspectRatio));
+const int width = 400;
+var image = new Image(width, (int)(width / camera.AspectRatio));
 
 var timer = Stopwatch.StartNew();
 Console.WriteLine("Rendering image");

@@ -1,6 +1,7 @@
 ﻿using RayTracer.Collision;
 using RayTracer.Configuration;
 using RayTracer.Data;
+using RayTracer.Utility;
 
 namespace RayTracer;
 
@@ -35,35 +36,40 @@ public class Tracer
                 _camera.Vertical * vJittered -
                 _camera.Origin);
             
-            color += Trace(ray);
+            color += Trace(ray, _configuration.MaxRayReflections);
         }
 
         return color / _configuration.SamplesPerPixel;
     }
 
-    private Color Trace(Ray ray)
+    private Color Trace(Ray ray, int depth)
     {
-        IntersectionResult? closestIntersection = null;
-        foreach (var item in _scene.Objects)
+        while (true)
         {
-            var intersection = item.Intersect(ray, 0, closestIntersection?.T ?? double.MaxValue); 
-            if (intersection is not null)
+            if (depth <= 0)
             {
-                closestIntersection = intersection;
+                return new Color();
             }
-        }
 
-        if (closestIntersection is null)
-        {
-            return BackgroundColor(ray);
+            IntersectionResult? closestIntersection = null;
+            foreach (var item in _scene.Objects)
+            {
+                var intersection = item.Intersect(ray, 0, closestIntersection?.T ?? double.MaxValue);
+                if (intersection is not null)
+                {
+                    closestIntersection = intersection;
+                }
+            }
+
+            if (closestIntersection is null)
+            {
+                return BackgroundColor(ray);
+            }
+
+            var diffuseDirection = closestIntersection.Normal + VectorUtils.RandomPointInUnitSphere();
+            ray = new Ray(closestIntersection.Point, diffuseDirection);
+            depth -= 1;
         }
-        
-        // var objectColor = new Color(0.0, 0.25, 0.85);
-        // return objectColor * ((Vector3.Dot(Vector3.Normalize(ray.Direction), intersection.Normal) - 1) * -0.5);
-        return new Color(
-            closestIntersection.Normal.X + 1.0,
-            closestIntersection.Normal.Y + 1.0,
-            closestIntersection.Normal.Z + 1.0) * 0.5;
     }
 
     private static Color BackgroundColor(Ray ray)

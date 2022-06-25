@@ -27,8 +27,9 @@ scene.Add(new Sphere(new Color(0, -100.5, -1), 100)); // Ground
 // scene.Add(new Sphere(new Vector3(0.1, 0, -0.5), 0.1));
 var tracerConfiguration = new TracerConfiguration
 {
-    SamplesPerPixel = 50,
-    MaxSampleDelta = 0.005
+    SamplesPerPixel = 100,
+    MaxSampleDelta = 0.005,
+    MaxRayReflections = 10
 };
 var tracer = new Tracer(tracerConfiguration, camera, scene);
 
@@ -39,7 +40,7 @@ var timer = Stopwatch.StartNew();
 Console.WriteLine("Rendering image");
 for (var y = 0; y < image.Height; y++)
 {
-    // Console.WriteLine($"Scanlines remaining: {image.Height-y}");
+    Console.WriteLine($"Scanlines remaining: {image.Height-y}");
     for (var x = 0; x < image.Width; x++)
     {
         var u = (double)x / (image.Width-1);

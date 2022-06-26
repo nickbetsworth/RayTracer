@@ -3,6 +3,7 @@ using RayTracer.Collision;
 using RayTracer.Configuration;
 using RayTracer.Data;
 using RayTracer.Extensions;
+using RayTracer.Materials;
 using Color = RayTracer.Data.Vector3;
 using Tracer = RayTracer.Tracer;
 
@@ -13,6 +14,13 @@ if (args.Length == 0)
 
 var outputPath = args[0];
 
+var tracerConfiguration = new TracerConfiguration
+{
+    SamplesPerPixel = 25,
+    MaxSampleDelta = 0.005,
+    MaxRayReflections = 25
+};
+
 var camera = new Camera
 {
     AspectRatio = 16.0 / 9.0,
@@ -21,16 +29,16 @@ var camera = new Camera
 };
 
 // Configure the scene
+var materialBlueDiffuse = new LambertianMaterial(new Color(0.0, 0.25, 0.9));
+var materialMetal = new MetalMaterial(new Color(0.5, 0.5, 0.5));
+var materialGround = new LambertianMaterial(new Color(0.1, 0.8, 0.1));
+
 var scene = new Scene();
-scene.Add(new Sphere(new Color(0, 0, -1), 0.5)); // Subject
-scene.Add(new Sphere(new Color(0, -100.5, -1), 100)); // Ground
-// scene.Add(new Sphere(new Vector3(0.1, 0, -0.5), 0.1));
-var tracerConfiguration = new TracerConfiguration
-{
-    SamplesPerPixel = 100,
-    MaxSampleDelta = 0.005,
-    MaxRayReflections = 2
-};
+scene.Add(new Sphere(new Color(0, 0, -1), 0.5, materialBlueDiffuse));
+scene.Add(new Sphere(new Color(1, 0, -1), 0.5, materialMetal));
+scene.Add(new Sphere(new Color(-0.7, -0.25, -0.7), 0.25, materialMetal));
+scene.Add(new Sphere(new Color(0, -100.5, -1), 100, materialGround));
+
 var tracer = new Tracer(tracerConfiguration, camera, scene);
 
 const int width = 400;

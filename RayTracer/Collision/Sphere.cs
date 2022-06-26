@@ -1,4 +1,5 @@
 ﻿using RayTracer.Data;
+using RayTracer.Materials;
 
 namespace RayTracer.Collision;
 
@@ -8,11 +9,13 @@ public class Sphere : IIntersectable
 {
     public Point3 Origin { get; set; }
     public double Radius { get; set; }
+    public Material Material { get; set; }
 
-    public Sphere(Vector3 origin, double radius)
+    public Sphere(Vector3 origin, double radius, Material material)
     {
         Origin = origin;
         Radius = radius;
+        Material = material;
     }
 
     public IntersectionResult? Intersect(Ray ray, double tMin, double tMax)
@@ -46,6 +49,6 @@ public class Sphere : IIntersectable
         var norm = (intersectionPoint - Origin) / Radius;
         var frontFaceIntersection = Vector3.Dot(ray.Direction, norm) < 0.0;
         
-        return new IntersectionResult(intersectionPoint, frontFaceIntersection ? norm : -norm, t, frontFaceIntersection);
+        return new IntersectionResult(this, intersectionPoint, frontFaceIntersection ? norm : -norm, t, frontFaceIntersection);
     }
 }

@@ -65,8 +65,13 @@ public class Tracer
             return BackgroundColor(ray);
         }
 
-        var diffuseDirection = closestIntersection.Normal + VectorUtils.RandomUnitVector();
-        return Trace(new Ray(closestIntersection.Point, diffuseDirection), depth-1) * 0.5;
+        var scatterResult = closestIntersection.Object.Material.Scatter(ray, closestIntersection);
+        if (scatterResult is null)
+        {
+            return new Color();
+        }
+
+        return scatterResult.Attenuation * Trace(scatterResult.Ray, depth - 1);
     }
 
     private static Color BackgroundColor(Ray ray)

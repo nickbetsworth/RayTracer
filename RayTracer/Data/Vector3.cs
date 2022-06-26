@@ -84,6 +84,17 @@ public class Vector3
             a.X * b.Y - a.Y * b.X);
     }
 
+    public static Vector3 Reflect(Vector3 vec, Vector3 norm)
+    {
+        return vec - norm * 2.0 * Dot(vec, norm);
+    }
+    
+    public static bool NearZero(Vector3 vec)
+    {
+        const double eps = 1e-8;
+        return Math.Abs(vec.X) < eps && Math.Abs(vec.Y) < eps && Math.Abs(vec.Z) < eps;
+    }
+    
     public override string ToString()
     {
         return $"({X} {Y} {Z})";

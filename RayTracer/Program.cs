@@ -4,6 +4,7 @@ using RayTracer.Configuration;
 using RayTracer.Data;
 using RayTracer.Extensions;
 using RayTracer.Materials;
+using RayTracer.Utility;
 using Color = RayTracer.Data.Vector3;
 using Tracer = RayTracer.Tracer;
 
@@ -16,7 +17,7 @@ var outputPath = args[0];
 
 var tracerConfiguration = new TracerConfiguration
 {
-    SamplesPerPixel = 100,
+    SamplesPerPixel = 10,
     MaxSampleDelta = 0.005,
     MaxRayReflections = 25
 };
@@ -46,10 +47,11 @@ const int width = 400;
 var image = new Image(width, (int)(width / camera.AspectRatio));
 
 var timer = Stopwatch.StartNew();
+var reporter = new ProgressReporter(0, image.Height-1, 10);
 Console.WriteLine("Rendering image");
 for (var y = 0; y < image.Height; y++)
 {
-    Console.WriteLine($"Scanlines remaining: {image.Height-y}");
+    reporter.Update(y);
     for (var x = 0; x < image.Width; x++)
     {
         var u = (double)x / (image.Width-1);

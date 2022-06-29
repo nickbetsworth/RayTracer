@@ -18,16 +18,15 @@ var outputPath = args[0];
 
 var tracerConfiguration = new TracerConfiguration
 {
-    SamplesPerPixel = 100,
+    SamplesPerPixel = 300,
     MaxSampleDelta = 0.005,
-    MaxRayReflections = 50
+    MaxRayReflections = 100
 };
 
-var camera = new Camera
+var camera = new Camera(45, 16.0 / 9.0)
 {
-    AspectRatio = 16.0 / 9.0,
     FocalLength = 1.0,
-    Origin = new Color(0, 0, 0)
+    Origin = new Point3(0, 0, 1.5)
 };
 
 // Configure the scene

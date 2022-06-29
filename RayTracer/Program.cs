@@ -34,10 +34,11 @@ var materialBlueDiffuse = new LambertianMaterial(new Color(0.0, 0.25, 0.9));
 var materialMetal = new MetalMaterial(new Color(0.5, 0.5, 0.5));
 var materialMetalFuzz = new MetalMaterial(new Color(0.5, 0.5, 0.5), 0.75);
 var materialGround = new LambertianMaterial(new Color(0.1, 0.8, 0.1));
+var materialDielectric = new DielectricMaterial(1.0);
 
 var scene = new Scene();
 scene.Add(new Sphere(new Color(0, 0, -1), 0.5, materialMetal));
-scene.Add(new Sphere(new Color(1, 0, -1), 0.5, materialMetalFuzz));
+scene.Add(new Sphere(new Color(1, 0, -1), 0.5, materialDielectric));
 scene.Add(new Sphere(new Color(-0.7, -0.25, -0.7), 0.25, materialBlueDiffuse));
 scene.Add(new Sphere(new Color(0, -100.5, -1), 100, materialGround));
 

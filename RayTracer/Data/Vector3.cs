@@ -89,6 +89,15 @@ public class Vector3
         return vec - norm * 2.0 * Dot(vec, norm);
     }
     
+    public static Vector3 Refract(Vector3 uv, Vector3 n, double refractiveIndex)
+    {
+        var cosTheta = Math.Min(Vector3.Dot(-uv, n), 1.0);
+        var rayOutPerp = (uv + n * cosTheta) * refractiveIndex;
+        var rayOutParallel = n * -Math.Sqrt(Math.Abs(1.0 - rayOutPerp.LengthSquared()));
+        
+        return rayOutPerp + rayOutParallel;
+    }
+    
     public static bool NearZero(Vector3 vec)
     {
         const double eps = 1e-8;

@@ -60,7 +60,7 @@ public class Vector3
     {
         return new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3 Normalize(Vector3 vec)
     {
@@ -91,7 +91,7 @@ public class Vector3
     
     public static Vector3 Refract(Vector3 uv, Vector3 n, double refractiveIndex)
     {
-        var cosTheta = Math.Min(Vector3.Dot(-uv, n), 1.0);
+        var cosTheta = Math.Min(Dot(-uv, n), 1.0);
         var rayOutPerp = (uv + n * cosTheta) * refractiveIndex;
         var rayOutParallel = n * -Math.Sqrt(Math.Abs(1.0 - rayOutPerp.LengthSquared()));
         
@@ -102,6 +102,22 @@ public class Vector3
     {
         const double eps = 1e-8;
         return Math.Abs(vec.X) < eps && Math.Abs(vec.Y) < eps && Math.Abs(vec.Z) < eps;
+    }
+    
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Vector3);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y, Z);
+    }
+    
+    private bool Equals(Vector3? other)
+    {
+        return other != null &&
+               X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
     }
     
     public override string ToString()

@@ -50,7 +50,7 @@ const int width = 400;
 var image = new Image(width, (int)(width / camera.AspectRatio));
 
 var timer = Stopwatch.StartNew();
-var reporter = new ProgressReporter(0, image.Height-1, 10);
+var reporter = new ProgressReporter(Console.Out, 0, image.Height-1, 10);
 Console.WriteLine("Rendering image");
 for (var y = 0; y < image.Height; y++)
 {

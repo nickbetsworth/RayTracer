@@ -17,14 +17,16 @@
 public class ProgressReporter
 {
     private const int ProgressBarLength = 40;
-    
+
+    private readonly TextWriter _out;
     private readonly int _start;
     private readonly int _end;
     private readonly int _interval;
     private int _nextReport;
 
-    public ProgressReporter(int start, int end, int maxReports)
+    public ProgressReporter(TextWriter @out, int start, int end, int maxReports)
     {
+        _out = @out;
         _start = start;
         _end = end;
         _interval = CalculateReportInterval(start, end, maxReports);
@@ -48,11 +50,11 @@ public class ProgressReporter
         return value >= _nextReport;
     }
 
-    private static void ReportProgress(double percentage)
+    private void ReportProgress(double percentage)
     {
         var numCharsComplete = (int)(percentage * ProgressBarLength);
         
-        Console.WriteLine(
+        _out.WriteLine(
             $"[{new string('=', numCharsComplete)}{new string('-', ProgressBarLength-numCharsComplete)}] " + 
             $"{(int)(percentage * 100)}%");
     }

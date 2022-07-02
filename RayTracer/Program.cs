@@ -18,9 +18,9 @@ var outputPath = args[0];
 
 var tracerConfiguration = new TracerConfiguration
 {
-    SamplesPerPixel = 300,
+    SamplesPerPixel = 50,
     MaxSampleDelta = 0.005,
-    MaxRayReflections = 100
+    MaxRayReflections = 50
 };
 
 var camera = new Camera(45, 16.0 / 9.0)
@@ -41,7 +41,8 @@ var scene = new Scene();
 scene.Add(new Sphere(new Point3(1.0, 0.0, -1.0), 0.5, materialMetal));
 scene.Add(new Sphere(new Point3(-1.0, 0.0, -1.0), -0.4, materialGlass));
 scene.Add(new Sphere(new Point3(-1.0, 0.0, -1.0), 0.5, materialGlass));
-scene.Add(new Sphere(new Point3(0.0, 0.0, -1.0), 0.5, materialBlueDiffuse));
+// scene.Add(new Sphere(new Point3(0.0, 0.0, -1.0), 0.5, materialBlueDiffuse));
+scene.Add(new AxisAlignedBox(new Point3(-0.25, -0.5, -1.25), new Point3(0.25, 0.5,  -0.75) , materialMetal));
 scene.Add(new Sphere(new Point3(0.0, -100.5, -1.0), 100, materialGround));
 
 var tracer = new Tracer(tracerConfiguration, camera, scene);

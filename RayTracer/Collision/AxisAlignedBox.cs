@@ -20,8 +20,6 @@ public class AxisAlignedBox : IIntersectable
 
     public IntersectionResult? Intersect(Ray ray, double tMin, double tMax)
     {
-        // Todo: handle division by zero
-        
         var localTMin = (Min.X - ray.Origin.X) / ray.Direction.X;
         var localTMax = (Max.X - ray.Origin.X) / ray.Direction.X;
         var normalMin = new Vector3(-1, 0, 0);
@@ -79,13 +77,16 @@ public class AxisAlignedBox : IIntersectable
         if (tMax < localTMin || tMin > localTMax || (tMin > localTMin && tMax < localTMax))
             return null;
 
+        // We intersect with the outside of the box
         if (tMin < localTMin)
         {
             return new IntersectionResult(
                 this, ray.At(localTMin), normalMin, localTMin, true);
         }
 
-        return null;
+        // The ray must originate inside the box and intersect with an internal face, reverse any normals
+        return new IntersectionResult(
+            this, ray.At(localTMax), -normalMax, localTMax, false);
     }
     
 }

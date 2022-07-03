@@ -5,7 +5,7 @@ namespace RayTracer.UnitTests.Data;
 public class Vector3Test
 {
     [Fact]
-    public void TestAdditionOperator()
+    public void AdditionOperator()
     {
         var vecA = new Vector3(1, 2, 3);
         var vecB = new Vector3(10, 100, 1000);
@@ -16,7 +16,7 @@ public class Vector3Test
     }
     
     [Fact]
-    public void TestAdditionOperatorCommutative()
+    public void AdditionOperatorCommutative()
     {
         var vecA = new Vector3(1, 2, 3);
         var vecB = new Vector3(10, 100, 1000);
@@ -25,7 +25,7 @@ public class Vector3Test
     }
     
     [Fact]
-    public void TestSubtractionOperator()
+    public void SubtractionOperator()
     {
         var vecA = new Vector3(1, 2, 3);
         var vecB = new Vector3(11, 102, 1003);
@@ -35,7 +35,7 @@ public class Vector3Test
     }
     
     [Fact]
-    public void TestMultiplicationOperator()
+    public void MultiplicationOperator()
     {
         var vecA = new Vector3(1, 2, 3);
         var vecB = new Vector3(10, 20, 30);
@@ -45,7 +45,7 @@ public class Vector3Test
     }
     
     [Fact]
-    public void TestMultiplicationOperatorCommutative()
+    public void MultiplicationOperatorCommutative()
     {
         var vecA = new Vector3(1, 2, 3);
         var vecB = new Vector3(10, 20, 30);
@@ -54,21 +54,21 @@ public class Vector3Test
     }
 
     [Fact]
-    public void TestNegationOperator()
+    public void NegationOperator()
     {
         var vec = new Vector3(1, 2, 3);
         Assert.Equal(new Vector3(-1, -2, -3), -vec);
     }
 
     [Fact]
-    public void TestLengthSquared()
+    public void LengthSquared()
     {
         var vec = new Vector3(1, 2, 3);
         Assert.Equal(14, vec.LengthSquared());
     }
     
     [Fact]
-    public void TestLength()
+    public void Length()
     {
         // 6 + 16 + 144 = 169
         // Sqrt(169) = 13
@@ -77,7 +77,7 @@ public class Vector3Test
     }
     
     [Fact]
-    public void TestDotProduct()
+    public void DotProduct()
     {
         var vecA = new Vector3(1, 2, 3);
         var vecB = new Vector3(3, 2, 1);
@@ -87,7 +87,7 @@ public class Vector3Test
 
     
     [Fact]
-    public void TestCrossProduct()
+    public void CrossProduct()
     {
         var vecA = new Vector3(1, 0, 0);
         var vecB = new Vector3(0, 1, 0);
@@ -97,7 +97,7 @@ public class Vector3Test
     }
     
     [Fact]
-    public void TestCrossProductParallel()
+    public void CrossProductParallel()
     {
         var vecA = new Vector3(1, 1, 0);
         var vecB = new Vector3(1, 1, 0);
@@ -106,7 +106,7 @@ public class Vector3Test
     }
 
     [Fact]
-    public void TestNormalize()
+    public void Normalize()
     {
         Assert.Equal(new Vector3(1, 0, 0), Vector3.Normalize(new Vector3(100, 0, 0)));
         
@@ -116,7 +116,7 @@ public class Vector3Test
     }
 
     [Fact]
-    public void TestReflect()
+    public void Reflect()
     {
         var vec = new Vector3(-1, 0, 0);
         var norm = new Vector3(1, 1, 1);

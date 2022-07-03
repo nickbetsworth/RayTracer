@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using RayTracer.Collision;
 using RayTracer.Configuration;
 using RayTracer.Data;
@@ -18,16 +19,24 @@ var outputPath = args[0];
 
 var tracerConfiguration = new TracerConfiguration
 {
-    SamplesPerPixel = 50,
+    SamplesPerPixel = 100,
     MaxSampleDelta = 0.005,
-    MaxRayReflections = 50
+    MaxRayReflections = 100
 };
 
-var camera = new Camera(45, 16.0 / 9.0)
-{
-    FocalLength = 1.0,
-    Origin = new Point3(0, 0, 1.5)
-};
+// var camera = new Camera(
+//     new Point3(-1, -0.25, 1.5),
+//     new Point3(-0.25, 0.25, -1),
+//     new Vector3(0, 1, 0),
+//     45,
+//     16.0 / 9.0);
+
+var camera = new Camera(
+    new Point3(-3, 0.75, 1),
+    new Point3(-0.25, 0.25, -1),
+    new Vector3(0, 1, 0),
+    45,
+    16.0 / 9.0);
 
 // Configure the scene
 var materialBlueDiffuse = new LambertianMaterial(new Color(0.0, 0.25, 0.9));
@@ -39,10 +48,10 @@ var materialDielectricDiamond = new DielectricMaterial(2.4);
 
 var scene = new Scene();
 scene.Add(new Sphere(new Point3(1.0, 0.0, -1.0), 0.5, materialMetal));
-scene.Add(new Sphere(new Point3(-1.0, 0.0, -1.0), -0.4, materialGlass));
+scene.Add(new Sphere(new Point3(-1.0, 0.0, -1.0), -0.45, materialGlass));
 scene.Add(new Sphere(new Point3(-1.0, 0.0, -1.0), 0.5, materialGlass));
 // scene.Add(new Sphere(new Point3(0.0, 0.0, -1.0), 0.5, materialBlueDiffuse));
-scene.Add(new AxisAlignedBox(new Point3(-0.25, -0.5, -1.25), new Point3(0.25, 0.5,  -0.75) , materialMetal));
+scene.Add(new AxisAlignedBox(new Point3(-0.25, -0.5, -1.25), new Point3(0.25, 0.5,  -0.75) , materialBlueDiffuse));
 scene.Add(new Sphere(new Point3(0.0, -100.5, -1.0), 100, materialGround));
 
 var tracer = new Tracer(tracerConfiguration, camera, scene);

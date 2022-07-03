@@ -6,7 +6,7 @@ namespace RayTracer.Materials;
 
 using Color = Vector3;
 
-class DielectricMaterial : Material
+public class DielectricMaterial : Material
 {
     public double RefractiveIndex { get; }
     

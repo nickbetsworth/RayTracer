@@ -1,7 +1,6 @@
 ﻿using RayTracer.Collision;
 using RayTracer.Configuration;
 using RayTracer.Data;
-using RayTracer.Utility;
 
 namespace RayTracer;
 

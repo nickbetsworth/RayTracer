@@ -1,67 +1,36 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
-using RayTracer.Collision;
+using CommandLine;
+using RayTracer;
 using RayTracer.Configuration;
+using RayTracer.Configuration.PrebuiltScenes.Scenes;
 using RayTracer.Data;
 using RayTracer.Extensions;
-using RayTracer.Materials;
 using RayTracer.Utility;
 using Color = RayTracer.Data.Vector3;
 using Point3 = RayTracer.Data.Vector3;
 using Tracer = RayTracer.Tracer;
 
-if (args.Length == 0)
+var parsedOptions = Parser.Default.ParseArguments<Options>(args);
+if (parsedOptions.Tag == ParserResultType.NotParsed)
 {
-    throw new ArgumentNullException("args[0]", "Expected to receive output filepath as argument");
+    return;
 }
-
-var outputPath = args[0];
 
 var tracerConfiguration = new TracerConfiguration
 {
-    SamplesPerPixel = 100,
-    MaxSampleDelta = 0.005,
-    MaxRayReflections = 100
+    SamplesPerPixel = parsedOptions.Value.SamplesPerPixel,
+    MaxSampleDelta = parsedOptions.Value.MaxSampleDelta,
+    MaxRayReflections = parsedOptions.Value.MaxRayReflections
 };
 
-// var camera = new Camera(
-//     new Point3(-1, -0.25, 1.5),
-//     new Point3(-0.25, 0.25, -1),
-//     new Vector3(0, 1, 0),
-//     45,
-//     16.0 / 9.0);
-
-var camera = new Camera(
-    new Point3(-3, 0.75, 1),
-    new Point3(-0.25, 0.25, -1),
-    new Vector3(0, 1, 0),
-    45,
-    16.0 / 9.0);
-
-// Configure the scene
-var materialBlueDiffuse = new LambertianMaterial(new Color(0.0, 0.25, 0.9));
-var materialMetal = new MetalMaterial(new Color(0.5, 0.5, 0.5));
-var materialMetalFuzz = new MetalMaterial(new Color(0.5, 0.5, 0.5), 0.75);
-var materialGlass = new DielectricMaterial(1.5);
-var materialGround = new LambertianMaterial(new Color(0.1, 0.1, 0.1));
-var materialDielectricDiamond = new DielectricMaterial(2.4);
-
-var scene = new Scene();
-scene.Add(new Sphere(new Point3(1.0, 0.0, -1.0), 0.5, materialMetal));
-scene.Add(new Sphere(new Point3(-1.0, 0.0, -1.0), -0.45, materialGlass));
-scene.Add(new Sphere(new Point3(-1.0, 0.0, -1.0), 0.5, materialGlass));
-// scene.Add(new Sphere(new Point3(0.0, 0.0, -1.0), 0.5, materialBlueDiffuse));
-scene.Add(new AxisAlignedBox(new Point3(-0.25, -0.5, -1.25), new Point3(0.25, 0.5,  -0.75) , materialBlueDiffuse));
-scene.Add(new Sphere(new Point3(0.0, -100.5, -1.0), 100, materialGround));
-
+var scene = new PrebuiltSceneA();
+var camera = scene.GetSuggestedCamera();
 var tracer = new Tracer(tracerConfiguration, camera, scene);
 
-const int width = 400;
-var image = new Image(width, (int)(width / camera.AspectRatio));
+var image = new Image(parsedOptions.Value.Width, parsedOptions.Value.Height);
 
 var timer = Stopwatch.StartNew();
 var reporter = new ProgressReporter(Console.Out, 0, image.Height-1, 10);
-Console.WriteLine("Rendering image");
 for (var y = 0; y < image.Height; y++)
 {
     reporter.Update(y);
@@ -73,9 +42,5 @@ for (var y = 0; y < image.Height; y++)
         image.SetPixel(x, y, tracer.Trace(u, v));
     }
 }
-
-Console.WriteLine("Done.");
-Console.WriteLine($"Time taken: {timer.Elapsed}ms");
-Console.WriteLine("Writing image to file.");
-image.ToPpm(outputPath);
-Console.WriteLine("Done.");
+Console.WriteLine($"Render time taken: {timer.Elapsed}ms");
+image.ToPpm(parsedOptions.Value.OutputFilepath);

@@ -1,6 +1,7 @@
 ﻿using RayTracer.Collision;
 using RayTracer.Data;
 using RayTracer.Materials;
+using RayTracer.UnitTests.Fakes;
 
 namespace RayTracer.UnitTests.Collision;
 
@@ -15,7 +16,7 @@ public class AxisAlignedBoxTest
         _box = new AxisAlignedBox(
             new Vector3(0, 0, 0),
             new Vector3(2, 2, 2),
-            new DielectricMaterial(1));
+            new NoopMaterial());
     }
     
     [Fact]
